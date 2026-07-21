@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="佐藤医院 スタッフ専用管理モック。"><title>管理画面モック | 佐藤医院</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="./css/style.css"></head>
+<body class="subpage-body admin-body">
+<main class="admin-shell">
+  <aside class="admin-sidebar">
+    <h1>佐藤医院 CMS Mock</h1>
+    <nav>
+      <a href="#dashboard">ダッシュボード</a>
+      <a href="#news-admin">お知らせ管理</a>
+      <a href="#pages-admin">固定ページ管理</a>
+      <a href="#media-admin">画像管理</a>
+      <a href="#settings-admin">公開設定</a>
+    </nav>
+  </aside>
+  <div class="admin-main">
+    <section class="admin-panel" id="dashboard"><h2>ダッシュボード</h2><p>GitHub Pages公開を前提とした、将来CMS連携用の管理画面モックです。実データ保存や認証は未実装です。</p></section>
+    <section class="admin-panel" id="news-admin"><h2>お知らせ管理</h2><div class="admin-grid"><div class="page-card"><h3>記事一覧</h3><ul class="page-card__list"><li>インフルエンザ予防接種について</li><li>年末年始の休診について</li><li>健康診断のご案内</li></ul></div><div class="page-card"><h3>記事編集</h3><form class="contact-form"><label><span>タイトル</span><input type="text" value="インフルエンザ予防接種について"></label><label class="contact-form__full"><span>本文</span><textarea rows="8">今年もインフルエンザの予防接種を開始いたしました。</textarea></label><button class="button" type="button">下書きを保存</button></form></div></div></section>
+    <section class="admin-panel" id="pages-admin"><h2>固定ページ管理</h2><p>トップ、診療内容、当院について、FAQ、診療時間・所在地の更新を想定した領域です。</p></section>
+    <section class="admin-panel" id="media-admin"><h2>画像管理</h2><p>支給素材、スタッフ写真、ヒーロー画像、署名画像などの差し替えを想定しています。</p></section>
+    <section class="admin-panel" id="settings-admin"><h2>公開設定</h2><p>将来は、下書き・レビュー・公開のステータス管理や、GitHub Pagesへの反映フローをここに接続する想定です。</p></section>
+  </div>
+</main>
+<a class="page-top-button" href="#" data-scroll-top aria-label="ページ上部へ戻る"><img src="./assets/images/page-top-button.png" alt=""></a>
+<script src="./js/main.js"></script></body></html>

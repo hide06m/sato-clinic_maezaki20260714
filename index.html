@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="佐藤医院の公式サイト。地域に根ざした医療を提供しています。">
+  <title>佐藤医院</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header__inner">
+      <a class="brand" href="#" data-scroll-top aria-label="佐藤医院 トップへ戻る">
+        <img class="brand__logo" src="./assets/images/logo.png" alt="佐藤医院">
+      </a>
+
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="メニューを開く">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" id="primary-navigation" aria-label="主要ナビゲーション">
+        <a href="#" data-scroll-top>トップ</a>
+        <a href="./access.html">診療時間・所在地</a>
+        <a href="./news.html">お知らせ</a>
+        <a href="./medical.html">診療内容</a>
+        <a href="./about.html">当院について</a>
+        <a href="./faq.html">よくあるご質問</a>
+        <a href="./contact.html">予約・お問い合わせ</a>
+        <a class="site-nav__phone" href="tel:00-0000-0000">00-0000-0000</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero reveal">
+      <div class="container hero__layout">
+        <div class="hero__word" aria-hidden="true">SATO<br>CLINIC</div>
+
+        <div class="hero__stage">
+          <div class="hero__center">
+            <div class="hero-orb" aria-label="地域に根ざした医療 内科・心臓・呼吸器・消化器">
+              <span class="hero-orb__halo hero-orb__halo--one" aria-hidden="true"></span>
+              <span class="hero-orb__halo hero-orb__halo--two" aria-hidden="true"></span>
+              <span class="hero-orb__cross hero-orb__cross--lg hero-orb__cross--left" aria-hidden="true"></span>
+              <span class="hero-orb__cross hero-orb__cross--md hero-orb__cross--right" aria-hidden="true"></span>
+              <span class="hero-orb__cross hero-orb__cross--sm hero-orb__cross--lower" aria-hidden="true"></span>
+              <span class="hero-orb__dot hero-orb__dot--one" aria-hidden="true"></span>
+              <span class="hero-orb__dot hero-orb__dot--two" aria-hidden="true"></span>
+              <span class="hero-orb__dot hero-orb__dot--three" aria-hidden="true"></span>
+              <span class="hero-orb__wave hero-orb__wave--one" aria-hidden="true"></span>
+              <span class="hero-orb__wave hero-orb__wave--two" aria-hidden="true"></span>
+              <span class="hero-orb__wave hero-orb__wave--three" aria-hidden="true"></span>
+
+              <div class="hero-orb__content">
+                <span class="hero-orb__leaf" aria-hidden="true">
+                  <span class="hero-orb__leaf-stem"></span>
+                  <span class="hero-orb__leaf-piece hero-orb__leaf-piece--a"></span>
+                  <span class="hero-orb__leaf-piece hero-orb__leaf-piece--b"></span>
+                  <span class="hero-orb__leaf-piece hero-orb__leaf-piece--c"></span>
+                  <span class="hero-orb__leaf-piece hero-orb__leaf-piece--d"></span>
+                  <span class="hero-orb__leaf-piece hero-orb__leaf-piece--e"></span>
+                </span>
+                <h1>地域に根ざした医療</h1>
+                <span class="hero-orb__divider" aria-hidden="true"></span>
+                <p>内科・心臓・呼吸器・消化器</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__card hero__card--first is-draggable" data-draggable>
+            <a class="hero__card-link" href="./first-visit.html">
+              <span>初めての方へ</span>
+              <strong>受診前に確認</strong>
+            </a>
+          </div>
+
+          <div class="hero__card hero__card--schedule is-draggable" data-draggable>
+            <a class="hero__card-link" href="./access.html">
+              <span>診療時間</span>
+              <strong>受付時間を確認</strong>
+            </a>
+          </div>
+
+          <div class="hero__card hero__card--symptom is-draggable" data-draggable>
+            <a class="hero__card-link" href="./medical.html">
+              <span>症状から探す</span>
+              <strong>診療内容へ進む</strong>
+            </a>
+          </div>
+
+          <div class="hero__card hero__card--access is-draggable" data-draggable>
+            <a class="hero__card-link" href="./access.html">
+              <span>アクセス</span>
+              <strong>所在地を確認</strong>
+            </a>
+          </div>
+
+          <div class="hero__photo hero__photo--doctor is-draggable" data-draggable>
+            <picture>
+              <source media="(min-width: 769px)" srcset="./assets/images/desktop-hero-doctor.png">
+              <img src="./assets/images/mobile-hero-doctor.png" alt="診察を行う医師と患者さま" draggable="false">
+            </picture>
+          </div>
+
+          <div class="hero__photo hero__photo--exterior is-draggable" data-draggable>
+            <img src="./assets/images/desktop-hero-exterior.png" alt="佐藤医院の外観" draggable="false">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="schedule-news section reveal" id="news">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <h2>診療時間・お知らせ</h2>
+        </div>
+
+        <div class="schedule-news__grid">
+          <a class="schedule-panel schedule-panel--link" href="./access.html#schedule-detail">
+            <div class="schedule-panel__head">
+              <div>
+                <p class="schedule-panel__eyebrow">受付終了までの目安</p>
+                <h3 id="schedule-status-title">受付時間外</h3>
+                <p class="schedule-panel__meta" id="schedule-status-meta" hidden></p>
+              </div>
+              <div class="schedule-panel__status">
+                <span id="schedule-status-badge">時間外</span>
+              </div>
+            </div>
+            <p class="schedule-panel__summary-copy">当日の受付状況をご案内しています。診療時間表や休診日、診療科目、所在地の詳細は「診療時間・所在地」ページをご確認ください。</p>
+          </a>
+
+          <aside class="news-panel">
+            <a class="news-feature" href="./news-detail.html?id=influenza" data-news-home-feature>
+              <span class="news-feature__label">お知らせ</span>
+              <span class="news-feature__meta">投稿日：<span data-news-feature-published></span></span>
+              <span class="news-feature__link" data-news-feature-title>インフルエンザ予防接種について</span>
+            </a>
+            <ul class="news-list" data-news-home-list></ul>
+            <a class="button button--secondary" href="./news.html">お知らせ一覧へ</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="greeting section reveal" id="greeting">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <h2>院長挨拶</h2>
+        </div>
+
+        <div class="greeting-card">
+          <div class="greeting-card__label" aria-hidden="true">M<br>E<br>S<br>S<br>A<br>G<br>E</div>
+          <div class="greeting-card__image">
+            <picture>
+              <source media="(min-width: 769px)" srcset="./assets/images/desktop-greeting-doctor.png">
+              <img src="./assets/images/mobile-greeting-doctor.png" alt="院長 佐藤 太郎">
+            </picture>
+          </div>
+          <div class="greeting-card__body">
+            <p class="greeting-card__lead">こんにちは。<br>佐藤医院の院長、佐藤太郎と申します。<br>当院のホームページをご覧いただき、ありがとうございます。</p>
+            <p>佐藤医院では、「地域に根ざした医療」をモットーに、患者様一人ひとりに寄り添った医療を提供することを目指しております。日常的な健康管理から生活習慣病の予防、さらには専門的な診断や治療まで、幅広い内科診療を行い、地域の皆様の健康を支える役割を担っていきたいと考えております。</p>
+            <p>私たちは、患者様の不安を少しでも軽減し、安心して診療を受けていただけるよう、わかりやすい説明と丁寧な対応を心掛けております。また、近隣の医療機関とも連携し、必要に応じて高度医療へのアクセスもサポートいたします。どんな小さな不調でも、どうぞお気軽にご相談ください。</p>
+            <p>これからも、患者様の健康を第一に考え、地域の皆様に信頼される医療機関であり続けるため、スタッフ一同努力してまいります。どうぞよろしくお願いいたします。</p>
+            <p class="greeting-card__signature">
+              <span class="greeting-card__signature-role">佐藤医院　院長</span>
+              <span class="signature-handwrite" aria-label="佐藤 太郎">
+                <img src="./assets/images/signature-sato-taro.png" alt="佐藤 太郎の署名">
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="medical section reveal" id="medical">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <h2>診療内容</h2>
+          <p>当院では、地域の皆様の健康を支えるため、幅広い内科診療を行っております。日常的な体調管理から、各種の検査や治療に至るまで、どんなお悩みもお気軽にご相談ください。</p>
+        </div>
+
+        <div class="medical-menu" aria-label="主な診療内容">
+          <a class="medical-menu__item" href="./medical.html#medical-general">
+            <span class="medical-menu__icon" aria-hidden="true">
+              <img src="./assets/images/icon_general_internal_stethoscope.png" alt="">
+            </span>
+            <span class="medical-menu__label">一般内科診療</span>
+          </a>
+          <a class="medical-menu__item" href="./medical.html#medical-lifestyle">
+            <span class="medical-menu__icon" aria-hidden="true">
+              <img src="./assets/images/icon_lifestyle_blood_pressure.png" alt="">
+            </span>
+            <span class="medical-menu__label">生活習慣病の診断・治療</span>
+          </a>
+          <a class="medical-menu__item" href="./medical.html#medical-digestive">
+            <span class="medical-menu__icon" aria-hidden="true">
+              <img src="./assets/images/icon_digestive_stomach.png" alt="">
+            </span>
+            <span class="medical-menu__label">消化器系の診療</span>
+          </a>
+          <a class="medical-menu__item" href="./medical.html#medical-respiratory">
+            <span class="medical-menu__icon" aria-hidden="true">
+              <img src="./assets/images/icon_respiratory_lung.png" alt="">
+            </span>
+            <span class="medical-menu__label">呼吸器系の診療</span>
+          </a>
+        </div>
+
+        <div class="section-action medical-menu__action">
+          <a class="button button--secondary" href="./medical.html">診療内容一覧へ</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="about section reveal" id="about">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <h2>当院について</h2>
+        </div>
+
+        <div class="about-showcase">
+          <div class="about-showcase__copy">
+            <p class="about-showcase__eyebrow">ABOUT</p>
+            <p>佐藤医院は、地域の皆様の健康を守り、より良い生活をサポートすることを使命としています。<br>創立以来、私たちは「患者様一人ひとりに寄り添った診療」を大切にし、地域密着型の医療を提供してまいりました。<br>今後も、皆様の健康維持と病気予防に貢献するため、より良い医療サービスを提供し続けることをお約束いたします。</p>
+            <div class="section-action about-showcase__action">
+              <a class="button button--secondary" href="./about.html">当院についてへ</a>
+            </div>
+          </div>
+
+          <div class="about-marquee" aria-label="当院の風景ギャラリー">
+            <div class="about-marquee__track">
+              <figure class="about-marquee__item about-marquee__item--large"><img src="./assets/images/about-gallery-01.jpg" alt="佐藤医院の院内風景"></figure>
+              <figure class="about-marquee__item"><img src="./assets/images/about-gallery-02.jpg" alt="佐藤医院の診療風景"></figure>
+              <figure class="about-marquee__item about-marquee__item--wide"><img src="./assets/images/about-gallery-03.jpg" alt="佐藤医院の院内設備"></figure>
+              <figure class="about-marquee__item"><img src="./assets/images/about-gallery-04.jpg" alt="佐藤医院の診察室"></figure>
+              <figure class="about-marquee__item"><img src="./assets/images/about-gallery-05.jpg" alt="佐藤医院の外観"></figure>
+              <figure class="about-marquee__item about-marquee__item--large"><img src="./assets/images/about-gallery-06.jpg" alt="佐藤医院の受付風景"></figure>
+              <figure class="about-marquee__item"><img src="./assets/images/about-gallery-07.jpg" alt="佐藤医院の院内"></figure>
+              <figure class="about-marquee__item about-marquee__item--wide"><img src="./assets/images/about-gallery-08.jpg" alt="佐藤医院の診療設備"></figure>
+              <figure class="about-marquee__item"><img src="./assets/images/about-gallery-09.jpg" alt="佐藤医院の待合風景"></figure>
+              <figure class="about-marquee__item"><img src="./assets/images/about-gallery-10.jpg" alt="佐藤医院の診察風景"></figure>
+
+              <figure class="about-marquee__item about-marquee__item--large" aria-hidden="true"><img src="./assets/images/about-gallery-01.jpg" alt=""></figure>
+              <figure class="about-marquee__item" aria-hidden="true"><img src="./assets/images/about-gallery-02.jpg" alt=""></figure>
+              <figure class="about-marquee__item about-marquee__item--wide" aria-hidden="true"><img src="./assets/images/about-gallery-03.jpg" alt=""></figure>
+              <figure class="about-marquee__item" aria-hidden="true"><img src="./assets/images/about-gallery-04.jpg" alt=""></figure>
+              <figure class="about-marquee__item" aria-hidden="true"><img src="./assets/images/about-gallery-05.jpg" alt=""></figure>
+              <figure class="about-marquee__item about-marquee__item--large" aria-hidden="true"><img src="./assets/images/about-gallery-06.jpg" alt=""></figure>
+              <figure class="about-marquee__item" aria-hidden="true"><img src="./assets/images/about-gallery-07.jpg" alt=""></figure>
+              <figure class="about-marquee__item about-marquee__item--wide" aria-hidden="true"><img src="./assets/images/about-gallery-08.jpg" alt=""></figure>
+              <figure class="about-marquee__item" aria-hidden="true"><img src="./assets/images/about-gallery-09.jpg" alt=""></figure>
+              <figure class="about-marquee__item" aria-hidden="true"><img src="./assets/images/about-gallery-10.jpg" alt=""></figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="staff section" id="staff">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <h2>スタッフ紹介</h2>
+        </div>
+
+        <div class="section-action">
+          <a class="staff-index-button" href="./about.html#staff">
+            <span class="staff-index-button__portraits" aria-hidden="true">
+              <span class="staff-index-button__portrait staff-index-button__portrait--director">
+                <img src="./assets/images/staff-director-cutout.png" alt="">
+              </span>
+              <span class="staff-index-button__portrait staff-index-button__portrait--nurse">
+                <img src="./assets/images/staff-head-nurse-cutout.png" alt="">
+              </span>
+              <span class="staff-index-button__portrait staff-index-button__portrait--technician">
+                <img src="./assets/images/staff-technician-cutout.png" alt="">
+              </span>
+              <span class="staff-index-button__portrait staff-index-button__portrait--reception">
+                <img src="./assets/images/staff-reception-cutout.png" alt="">
+              </span>
+            </span>
+            <span class="staff-index-button__label">スタッフ一覧へ</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="access section reveal" id="access">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <h2>アクセス</h2>
+        </div>
+
+        <div class="access-card">
+          <div class="access-card__info">
+            <a class="access-card__block access-card__block--link" href="./access.html#location-detail">
+              <p class="access-card__address">〒123-4567<br>東京都台東区上野0-0-0</p>
+              <p>JR上野駅より徒歩5分</p>
+              <p>当院専用の無料駐車場　10台分あり</p>
+            </a>
+            <div class="access-card__divider" aria-hidden="true"></div>
+            <div class="access-card__block access-card__block--contact">
+              <a class="access-card__block-link" href="./contact.html" aria-label="予約・お問い合わせページへ移動"></a>
+              <p class="access-card__phone"><span class="access-card__phone-label">TEL:</span> 00-0000-0000</p>
+              <p class="access-card__mail">メール：info@sato-clinic-test.jp</p>
+              <a class="button" href="tel:00-0000-0000">お電話はこちら</a>
+            </div>
+          </div>
+          <a class="access-card__map" href="./access.html#location-detail" aria-label="診療時間・所在地ページの所在地へ移動">
+            <iframe
+              title="佐藤医院 周辺地図"
+              src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%8F%B0%E6%9D%B1%E5%8C%BA%E4%B8%8A%E9%87%8E&z=16&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen></iframe>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a class="page-top-button" href="#" data-scroll-top aria-label="ページ上部へ戻る">
+    <img src="./assets/images/page-top-button.png" alt="">
+  </a>
+
+  <footer class="site-footer" id="footer">
+    <div class="container footer__inner">
+      <div class="footer__column footer__column--info">
+        <a class="footer__brand" href="#top" aria-label="ページ最上部へ戻る">
+          <img src="./assets/images/logo.png" alt="佐藤医院">
+        </a>
+        <div class="footer__info">
+          <p>〒123-4567　東京都台東区上野0-0-0</p>
+          <p><a href="tel:00-0000-0000">電話：00-0000-0000</a></p>
+          <p>FAX：00-0000-0000</p>
+          <p><a href="mailto:info@sato-clinic-test.jp">メール：info@sato-clinic-test.jp</a></p>
+          <p>最寄り駅：JR上野駅より徒歩5分</p>
+          <p>駐車場：当院専用の無料駐車場 10台分あり</p>
+        </div>
+      </div>
+      <div class="footer__column">
+        <div class="footer__nav-group">
+          <a class="footer__section-link" href="./first-visit.html">初めての方へ</a>
+          <ul class="footer__sublist">
+            <li><a href="./first-visit.html#flow">・受診の流れ</a></li>
+            <li><a href="./first-visit.html#checklist">・ご持参いただくもの</a></li>
+            <li><a href="./first-visit.html#reservation">・ご予約について</a></li>
+            <li><a href="./first-visit.html#notice">・ご来院にあたってのお願い</a></li>
+          </ul>
+        </div>
+        <div class="footer__nav-group">
+          <a class="footer__section-link" href="./access.html">診療時間・所在地</a>
+          <ul class="footer__sublist">
+            <li><a href="./access.html#schedule-detail">・受付時間</a></li>
+            <li><a href="./access.html#department-detail">・診療科目</a></li>
+            <li><a href="./access.html#location-detail">・所在地</a></li>
+            <li><a href="./access.html#contact-detail">・お問い合わせ</a></li>
+          </ul>
+        </div>
+        <div class="footer__nav-group">
+          <a class="footer__section-link" href="./news.html">お知らせ</a>
+        </div>
+        <div class="footer__nav-group">
+          <a class="footer__section-link" href="./medical.html">診療内容</a>
+          <ul class="footer__sublist">
+            <li><a href="./medical.html#medical-general">・一般内科診療</a></li>
+            <li><a href="./medical.html#medical-lifestyle">・生活習慣病の診断・治療</a></li>
+            <li><a href="./medical.html#medical-digestive">・消化器系の診療</a></li>
+            <li><a href="./medical.html#medical-respiratory">・呼吸器系の診療</a></li>
+            <li><a href="./medical.html#medical-checkup">・健康診断・各種検査</a></li>
+            <li><a href="./medical.html#medical-vaccination">・予防接種</a></li>
+            <li><a href="./medical.html#medical-smoking-cessation">・禁煙外来</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__column">
+        <div class="footer__nav-group">
+          <a class="footer__section-link" href="./about.html">当院について</a>
+          <ul class="footer__sublist">
+            <li><a href="./about.html#policy">・診療方針</a></li>
+            <li><a href="./about.html#community">・地域に根ざした医療</a></li>
+            <li><a href="./about.html#family">・ご家族全員をサポート</a></li>
+            <li><a href="./about.html#team">・医療設備とチーム医療</a></li>
+            <li><a href="./about.html#vision">・医院の理念・方針</a></li>
+            <li><a href="./about.html#future">・患者様とともに歩む未来</a></li>
+            <li><a href="./about.html#staff">・スタッフ紹介</a></li>
+          </ul>
+        </div>
+        <div class="footer__nav-group">
+          <a class="footer__section-link" href="./faq.html">よくあるご質問</a>
+          <ul class="footer__sublist">
+            <li><a href="./faq.html#faq-medical">・診療について</a></li>
+            <li><a href="./faq.html#faq-checkup">・予防接種・健康診断について</a></li>
+            <li><a href="./faq.html#faq-payment">・お支払いについて</a></li>
+            <li><a href="./faq.html#faq-other">・その他</a></li>
+          </ul>
+        </div>
+        <div class="footer__nav-group">
+          <a class="footer__section-link" href="./contact.html">予約・お問い合わせ</a>
+          <ul class="footer__sublist">
+            <li><a href="./contact.html#reservation">・予約</a></li>
+            <li><a href="./contact.html#inquiry">・お問い合わせ</a></li>
+            <li><a href="./contact.html#guidance">・ご案内</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="footer__copy">© 佐藤医院</p>
+  </footer>
+
+  <script src="./js/news-data.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
