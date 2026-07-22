@@ -1,3 +1,5 @@
+document.documentElement.classList.add('js-enabled');
+
 const menuButton = document.querySelector('.menu-button');
 const siteNav = document.querySelector('.site-nav');
 const revealTargets = document.querySelectorAll('.reveal');
@@ -43,6 +45,294 @@ const inquiryFormNotice = document.querySelector('#inquiry-form-notice');
 const inquirySubmitButton = document.querySelector('.inquiry-form__submit');
 const pageTopButton = document.querySelector('.page-top-button');
 let activeStaffTrigger = null;
+const routeMapTrigger = document.querySelector('[data-route-map-trigger]');
+const routeMapModal = document.querySelector('#route-map-modal');
+const routeMapModalCloseTargets = document.querySelectorAll('[data-route-map-close]');
+const routeMapModalImage = document.querySelector('#route-map-modal-image');
+const routeMapZoomInButton = document.querySelector('[data-route-map-zoom-in]');
+const routeMapZoomOutButton = document.querySelector('[data-route-map-zoom-out]');
+const routeMapZoomResetButton = document.querySelector('[data-route-map-zoom-reset]');
+let isRouteMapModalOpen = false;
+let routeMapZoomLevel = 1;
+const ROUTE_MAP_ZOOM_MIN = 0.85;
+const ROUTE_MAP_ZOOM_MAX = 1.8;
+const ROUTE_MAP_ZOOM_STEP = 0.15;
+
+const LANGUAGE_STORAGE_KEY = 'sato-clinic-language';
+const LANGUAGE_OPTIONS = [
+  { key: 'ja', label: '日本語', htmlLang: 'ja', imageSuffix: '', ariaLabel: '日本語に切り替え' },
+  { key: 'en', label: 'ENGLISH', htmlLang: 'en', imageSuffix: '_en', ariaLabel: '英語に切り替え' },
+  { key: 'zh-tw', label: '繁體字', htmlLang: 'zh-Hant', imageSuffix: '_zh-tw', ariaLabel: '中文繁體字に切り替え' },
+  { key: 'zh-cn', label: '简体字', htmlLang: 'zh-Hans', imageSuffix: '_zh-cn', ariaLabel: '中文簡体字に切り替え' },
+  { key: 'ko', label: '한국어', htmlLang: 'ko', imageSuffix: '_ko', ariaLabel: '韓国語に切り替え' },
+];
+const LANGUAGE_DEFAULT = 'ja';
+const LOCALIZED_PAGE_IMAGE_KEYS = {
+  about: 'about',
+  access: 'access',
+  news: 'news',
+  'news-detail': 'news',
+  medical: 'medical',
+  faq: 'faq',
+  contact: 'contact',
+  'first-visit': 'first-visit',
+};
+const LOCALIZED_IMAGE_SOURCES = {
+  about: {
+    ja: './assets/images/about_logo.png',
+    en: './assets/images/about_en.png',
+    'zh-tw': './assets/images/about_zh-tw.png',
+    'zh-cn': './assets/images/about_zh-cn.png',
+    ko: './assets/images/about_ko.png',
+  },
+  access: {
+    ja: './assets/images/access_logo.png',
+    en: './assets/images/access_en.png',
+    'zh-tw': './assets/images/access_zh-tw.png',
+    'zh-cn': './assets/images/access_zh-cn.png',
+    ko: './assets/images/access_ko.png',
+  },
+  news: {
+    ja: './assets/images/news_logo.png',
+    en: './assets/images/news_en.png',
+    'zh-tw': './assets/images/news_zh-tw.png',
+    'zh-cn': './assets/images/news_zh-cn.png',
+    ko: './assets/images/news_ko.png',
+  },
+  medical: {
+    ja: './assets/images/medical_logo.png',
+    en: './assets/images/medical_en.png',
+    'zh-tw': './assets/images/medical_zh-tw.png',
+    'zh-cn': './assets/images/medical_zh-cn.png',
+    ko: './assets/images/medical_ko.png',
+  },
+  faq: {
+    ja: './assets/images/faq_logo.png',
+    en: './assets/images/faq_en.png',
+    'zh-tw': './assets/images/faq_zh-tw.png',
+    'zh-cn': './assets/images/faq_zh-cn.png',
+    ko: './assets/images/faq_ko.png',
+  },
+  contact: {
+    ja: './assets/images/contact_logo.png',
+    en: './assets/images/contact_en.png',
+    'zh-tw': './assets/images/contact_zh-tw.png',
+    'zh-cn': './assets/images/contact_zh-cn.png',
+    ko: './assets/images/contact_ko.png',
+  },
+  'first-visit': {
+    ja: './assets/images/first-visit_logo.png',
+    en: './assets/images/first-visit_logo_en.png',
+    'zh-tw': './assets/images/first-visit_logo_zh-tw.png',
+    'zh-cn': './assets/images/first-visit_logo_zh-cn.png',
+    ko: './assets/images/first-visit_logo_ko.png',
+  },
+};
+
+const FONT_SCALE_STORAGE_KEY = 'sato-clinic-font-scale';
+const FONT_SCALE_OPTIONS = [
+  { key: 'small', label: '小', ariaLabel: '文字サイズを小さく' },
+  { key: 'standard', label: '標準', ariaLabel: '標準の文字サイズ' },
+  { key: 'large', label: '大', ariaLabel: '文字サイズを大きく' },
+  { key: 'xlarge', label: '特大', ariaLabel: '文字サイズをさらに大きく' },
+];
+const FONT_SCALE_DEFAULT = 'standard';
+
+function getStoredFontScale() {
+  try {
+    const stored = window.localStorage.getItem(FONT_SCALE_STORAGE_KEY);
+    return FONT_SCALE_OPTIONS.some((option) => option.key === stored) ? stored : FONT_SCALE_DEFAULT;
+  } catch (error) {
+    return FONT_SCALE_DEFAULT;
+  }
+}
+
+function getStoredLanguage() {
+  try {
+    const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    return LANGUAGE_OPTIONS.some((option) => option.key === stored) ? stored : LANGUAGE_DEFAULT;
+  } catch (error) {
+    return LANGUAGE_DEFAULT;
+  }
+}
+
+function setStoredLanguage(languageKey) {
+  try {
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, languageKey);
+  } catch (error) {
+    // localStorage unavailable: keep the live state only.
+  }
+}
+
+function setStoredFontScale(scaleKey) {
+  try {
+    window.localStorage.setItem(FONT_SCALE_STORAGE_KEY, scaleKey);
+  } catch (error) {
+    // localStorage unavailable: keep the live state only.
+  }
+}
+
+function applyFontScale(scaleKey) {
+  const nextScale = FONT_SCALE_OPTIONS.some((option) => option.key === scaleKey) ? scaleKey : FONT_SCALE_DEFAULT;
+  document.documentElement.dataset.fontScale = nextScale;
+  setStoredFontScale(nextScale);
+
+  document.querySelectorAll('[data-font-scale-option]').forEach((button) => {
+    const isActive = button.dataset.fontScaleOption === nextScale;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+function getCurrentPageKey() {
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  const match = path.match(/^([^.]+)\.html$/);
+  return match ? match[1] : 'index';
+}
+
+function getLanguageOption(languageKey) {
+  return LANGUAGE_OPTIONS.find((option) => option.key === languageKey) || LANGUAGE_OPTIONS[0];
+}
+
+function getLocalizedImageSrc(pageKey, languageKey) {
+  const sourceMap = LOCALIZED_IMAGE_SOURCES[pageKey];
+  if (!sourceMap) return '';
+  const option = getLanguageOption(languageKey);
+  return sourceMap[option.key] || sourceMap.ja || '';
+}
+
+function updateLocalizedImages(languageKey) {
+  const pageKey = getCurrentPageKey();
+  const option = getLanguageOption(languageKey);
+  const localizedPageKey = LOCALIZED_PAGE_IMAGE_KEYS[pageKey];
+
+  if (localizedPageKey) {
+    const nextSrc = getLocalizedImageSrc(localizedPageKey, languageKey);
+    const titleImage = document.querySelector('.subpage-title-image img, .news-page-title-image img');
+    if (titleImage && nextSrc) {
+      titleImage.setAttribute('src', nextSrc);
+      const pageTitleAltMap = {
+        about: '当院について',
+        access: '診療時間・所在地',
+        news: 'お知らせ',
+        medical: '診療内容',
+        faq: 'よくあるご質問',
+        contact: '予約・お問い合わせ',
+        'first-visit': '初めての方へ',
+      };
+      titleImage.setAttribute('alt', pageTitleAltMap[localizedPageKey] || titleImage.alt || 'ページタイトル');
+    }
+  }
+
+  document.querySelectorAll('.font-scale-switcher [data-language-option]').forEach((button) => {
+    const isActive = button.dataset.languageOption === languageKey;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+function applyLanguage(languageKey) {
+  const nextLanguage = LANGUAGE_OPTIONS.some((option) => option.key === languageKey) ? languageKey : LANGUAGE_DEFAULT;
+  const option = getLanguageOption(nextLanguage);
+  document.documentElement.lang = option.htmlLang;
+  document.documentElement.dataset.language = nextLanguage;
+  setStoredLanguage(nextLanguage);
+  updateLocalizedImages(nextLanguage);
+}
+
+function mountFontScaleSwitcher() {
+  if (document.querySelector('[data-font-scale-switcher]')) return;
+
+  const switcher = document.createElement('div');
+  switcher.className = 'font-scale-switcher';
+  switcher.setAttribute('data-font-scale-switcher', 'true');
+  switcher.setAttribute('aria-label', '文字サイズ切り替え');
+
+  const languageGroup = document.createElement('div');
+  languageGroup.className = 'font-scale-switcher__language-group';
+
+  const languageToggle = document.createElement('button');
+  languageToggle.type = 'button';
+  languageToggle.className = 'font-scale-switcher__language-placeholder';
+  languageToggle.setAttribute('data-language-toggle', 'true');
+  languageToggle.setAttribute('aria-haspopup', 'listbox');
+  languageToggle.setAttribute('aria-expanded', 'false');
+  languageToggle.innerHTML = '<span class="font-scale-switcher__language-text" data-language-label>Language</span>';
+  languageGroup.appendChild(languageToggle);
+
+  const languageMenu = document.createElement('div');
+  languageMenu.className = 'font-scale-switcher__language-menu';
+  languageMenu.setAttribute('data-language-menu', 'true');
+  languageMenu.setAttribute('role', 'listbox');
+
+  const closeLanguageMenu = () => {
+    languageMenu.classList.remove('is-open');
+    languageToggle.setAttribute('aria-expanded', 'false');
+  };
+
+  const openLanguageMenu = () => {
+    requestAnimationFrame(() => {
+      languageMenu.classList.add('is-open');
+    });
+    languageToggle.setAttribute('aria-expanded', 'true');
+  };
+
+  LANGUAGE_OPTIONS.forEach((option) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'font-scale-switcher__language-option';
+    button.dataset.languageOption = option.key;
+    button.setAttribute('role', 'option');
+    button.setAttribute('aria-label', option.ariaLabel);
+    button.setAttribute('aria-pressed', 'false');
+    button.textContent = option.label;
+    button.addEventListener('click', () => {
+      closeLanguageMenu();
+      applyLanguage(option.key);
+    });
+    languageMenu.appendChild(button);
+  });
+
+  languageToggle.addEventListener('click', () => {
+    const isOpen = languageMenu.classList.contains('is-open');
+    if (isOpen) {
+      closeLanguageMenu();
+      return;
+    }
+    openLanguageMenu();
+  });
+
+  languageGroup.appendChild(languageMenu);
+  switcher.appendChild(languageGroup);
+
+  [...FONT_SCALE_OPTIONS].reverse().forEach((option) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'font-scale-switcher__button';
+    button.dataset.fontScaleOption = option.key;
+    button.setAttribute('aria-label', option.ariaLabel);
+    button.setAttribute('aria-pressed', 'false');
+    button.textContent = option.label;
+    button.addEventListener('click', () => applyFontScale(option.key));
+    switcher.appendChild(button);
+  });
+
+  document.body.appendChild(switcher);
+
+  document.addEventListener('click', (event) => {
+    if (!switcher.contains(event.target)) {
+      closeLanguageMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeLanguageMenu();
+    }
+  });
+
+  closeLanguageMenu();
+}
 
 function getNewsArticles() {
   if (!Array.isArray(window.NEWS_ARTICLES)) return [];
@@ -251,6 +541,32 @@ function openStaffModal(trigger) {
   activeStaffTrigger = trigger;
 }
 
+function openRouteMapModal() {
+  if (!routeMapModal) return;
+  routeMapZoomLevel = 1;
+  if (routeMapModalImage) {
+    routeMapModalImage.style.width = '100%';
+  }
+  routeMapModal.classList.add('is-open');
+  routeMapModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('is-modal-open');
+  isRouteMapModalOpen = true;
+}
+
+function closeRouteMapModal() {
+  if (!routeMapModal) return;
+  routeMapModal.classList.remove('is-open');
+  routeMapModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('is-modal-open');
+  isRouteMapModalOpen = false;
+}
+
+function setRouteMapZoom(nextZoomLevel) {
+  if (!routeMapModalImage) return;
+  routeMapZoomLevel = Math.min(ROUTE_MAP_ZOOM_MAX, Math.max(ROUTE_MAP_ZOOM_MIN, nextZoomLevel));
+  routeMapModalImage.style.width = `${routeMapZoomLevel * 100}%`;
+}
+
 if (menuButton && siteNav) {
   menuButton.addEventListener('click', () => {
     const isOpen = siteNav.classList.toggle('is-open');
@@ -284,6 +600,7 @@ if (menuButton && siteNav) {
     menuButton.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('is-menu-open');
     closeStaffModal();
+    closeRouteMapModal();
   });
 }
 
@@ -325,6 +642,48 @@ staffTriggers.forEach((trigger) => {
 staffModalCloseTargets.forEach((target) => {
   target.addEventListener('click', closeStaffModal);
 });
+
+if (routeMapTrigger) {
+  routeMapTrigger.addEventListener('click', openRouteMapModal);
+}
+
+routeMapModalCloseTargets.forEach((target) => {
+  target.addEventListener('click', closeRouteMapModal);
+});
+
+if (routeMapModal) {
+  routeMapModal.addEventListener('click', (event) => {
+    if (event.target === routeMapModal) closeRouteMapModal();
+  });
+}
+
+if (routeMapZoomInButton) {
+  routeMapZoomInButton.addEventListener('click', () => {
+    setRouteMapZoom(routeMapZoomLevel + ROUTE_MAP_ZOOM_STEP);
+  });
+}
+
+if (routeMapZoomOutButton) {
+  routeMapZoomOutButton.addEventListener('click', () => {
+    setRouteMapZoom(routeMapZoomLevel - ROUTE_MAP_ZOOM_STEP);
+  });
+}
+
+if (routeMapZoomResetButton) {
+  routeMapZoomResetButton.addEventListener('click', () => {
+    setRouteMapZoom(1);
+  });
+}
+
+if (routeMapModalImage) {
+  routeMapModalImage.addEventListener('wheel', (event) => {
+    if (!routeMapModal?.classList.contains('is-open')) return;
+    if (!event.ctrlKey) return;
+    event.preventDefault();
+    const direction = event.deltaY < 0 ? 1 : -1;
+    setRouteMapZoom(routeMapZoomLevel + direction * ROUTE_MAP_ZOOM_STEP);
+  }, { passive: false });
+}
 
 window.addEventListener('resize', () => {
   if (!staffModal?.classList.contains('is-open') || !activeStaffTrigger) return;
@@ -495,6 +854,10 @@ if (pageTopButton) {
   togglePageTopButton();
   window.addEventListener('scroll', togglePageTopButton, { passive: true });
 }
+
+mountFontScaleSwitcher();
+applyFontScale(getStoredFontScale());
+applyLanguage(getStoredLanguage());
 
 function formatRemainingTime(targetTime, now) {
   const remainingMs = Math.max(0, targetTime.getTime() - now.getTime());

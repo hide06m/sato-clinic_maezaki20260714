@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import PIL; print\\(PIL.__version__\\)\")",
+      "Bash(python3 -m pip install --quiet --disable-pip-version-check Pillow)",
+      "Read(//Applications/**)",
+      "Bash(command -v npx)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(awk 'NR==2941,NR==3005' css/style.css)",
+      "Bash(cat)",
+      "Bash(node shot.js /Users/schna/Library/CloudStorage/GoogleDrive-hide06m@gmail.com/マイドライブ/src/sato-clinic_maezaki20260714/about.html /private/tmp/claude-501/-Users-schna-Library-CloudStorage-GoogleDrive-hide06m-gmail-com--------src-sato-clinic-maezaki20260714/36a18683-d43e-42b4-8017-0acd9dcfea7d/scratchpad/staff-desktop.png)"
+    ]
+  }
+}
