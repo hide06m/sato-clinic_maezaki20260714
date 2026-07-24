@@ -4,20 +4,40 @@
 <body class="subpage-body admin-body">
 <main class="admin-shell">
   <aside class="admin-sidebar">
+    <a class="admin-sidebar__brand" href="./index.html"><img src="./assets/images/logo_tag.png" alt=""><span>← 公開サイトへ戻る</span></a>
     <h1>佐藤医院 CMS Mock</h1>
     <nav>
       <a href="#dashboard">ダッシュボード</a>
       <a href="#news-admin">お知らせ管理</a>
+      <a href="#medical-admin">診療内容管理</a>
+      <a href="#staff-admin">スタッフ管理</a>
+      <a href="#faq-admin">よくあるご質問管理</a>
       <a href="#pages-admin">固定ページ管理</a>
+      <a href="#language-admin">多言語管理</a>
       <a href="#media-admin">画像管理</a>
       <a href="#settings-admin">公開設定</a>
     </nav>
   </aside>
   <div class="admin-main">
-    <section class="admin-panel" id="dashboard"><h2>ダッシュボード</h2><p>GitHub Pages公開を前提とした、将来CMS連携用の管理画面モックです。実データ保存や認証は未実装です。</p></section>
-    <section class="admin-panel" id="news-admin"><h2>お知らせ管理</h2><div class="admin-grid"><div class="page-card"><h3>記事一覧</h3><ul class="page-card__list"><li>インフルエンザ予防接種について</li><li>年末年始の休診について</li><li>健康診断のご案内</li></ul></div><div class="page-card"><h3>記事編集</h3><form class="contact-form"><label><span>タイトル</span><input type="text" value="インフルエンザ予防接種について"></label><label class="contact-form__full"><span>本文</span><textarea rows="8">今年もインフルエンザの予防接種を開始いたしました。</textarea></label><button class="button" type="button">下書きを保存</button></form></div></div></section>
-    <section class="admin-panel" id="pages-admin"><h2>固定ページ管理</h2><p>トップ、診療内容、当院について、FAQ、診療時間・所在地の更新を想定した領域です。</p></section>
-    <section class="admin-panel" id="media-admin"><h2>画像管理</h2><p>支給素材、スタッフ写真、ヒーロー画像、署名画像などの差し替えを想定しています。</p></section>
+    <section class="admin-panel" id="dashboard">
+      <h2>ダッシュボード</h2>
+      <p>GitHub Pages公開を前提とした、将来CMS連携用の管理画面モックです。実データ保存や認証は未実装です。</p>
+      <div class="admin-stats">
+        <div class="admin-stat"><strong>5</strong><span>お知らせ記事</span></div>
+        <div class="admin-stat"><strong>7</strong><span>診療内容項目</span></div>
+        <div class="admin-stat"><strong>4</strong><span>スタッフ紹介</span></div>
+        <div class="admin-stat"><strong>11</strong><span>よくある質問</span></div>
+        <div class="admin-stat"><strong>8</strong><span>公開ページ</span></div>
+        <div class="admin-stat"><strong>5</strong><span>対応言語</span></div>
+      </div>
+    </section>
+    <section class="admin-panel" id="news-admin"><h2>お知らせ管理</h2><div class="admin-grid"><div class="page-card"><h3>記事一覧</h3><ul class="page-card__list"><li>インフルエンザ予防接種について（2025-09-27公開）</li><li>年末年始の休診について（2024-12-20公開）</li><li>健康診断のご案内（2024-09-10公開）</li><li>新型コロナウイルス対策について（2024-04-08公開）</li><li>オンライン診療の導入について（2024-01-18公開）</li></ul><a class="button button--secondary" href="./news.html">公開ページを見る</a></div><div class="page-card"><h3>記事編集</h3><form class="contact-form"><label><span>タイトル</span><input type="text" value="インフルエンザ予防接種について"></label><label><span>公開日</span><input type="date" value="2025-09-27"></label><label class="contact-form__full"><span>本文</span><textarea rows="8">今年もインフルエンザの予防接種を開始いたしました。予約制となっておりますので、お電話または受付にてご予約をお願いいたします。</textarea></label><button class="button" type="button">下書きを保存</button></form></div></div></section>
+    <section class="admin-panel" id="medical-admin"><h2>診療内容管理</h2><div class="page-card"><h3>掲載項目一覧</h3><ul class="page-card__list"><li>1. 一般内科診療</li><li>2. 生活習慣病の診断・治療</li><li>3. 消化器系の診療</li><li>4. 呼吸器系の診療</li><li>5. 健康診断・各種検査</li><li>6. 予防接種</li><li>7. 禁煙外来</li></ul><a class="button button--secondary" href="./medical.html">公開ページを見る</a></div></section>
+    <section class="admin-panel" id="staff-admin"><h2>スタッフ管理</h2><div class="admin-grid"><div class="page-card"><h3>掲載スタッフ</h3><ul class="page-card__list"><li>院長：佐藤 太郎</li><li>看護師長：鈴木 真理</li><li>臨床検査技師：高橋 由美</li><li>医療事務：山本 花</li></ul><a class="button button--secondary" href="./about.html#staff">公開ページを見る</a></div><div class="page-card"><h3>プロフィール編集</h3><form class="contact-form"><label><span>氏名・役職</span><input type="text" value="院長：佐藤 太郎"></label><label><span>専門分野</span><input type="text" value="生活習慣病、呼吸器疾患、内科全般"></label><label class="contact-form__full"><span>コメント</span><textarea rows="4">患者様にとって気軽に相談できる「かかりつけ医」を目指しています。どんな小さな不安でも、まずはご相談ください。</textarea></label><button class="button" type="button">下書きを保存</button></form></div></div></section>
+    <section class="admin-panel" id="faq-admin"><h2>よくあるご質問管理</h2><div class="page-card"><h3>カテゴリ別件数</h3><ul class="page-card__list"><li>診療について：3件</li><li>予防接種・健康診断について：3件</li><li>お支払いについて：2件</li><li>その他：3件</li></ul><a class="button button--secondary" href="./faq.html">公開ページを見る</a></div></section>
+    <section class="admin-panel" id="pages-admin"><h2>固定ページ管理</h2><div class="page-card"><h3>公開ページ一覧</h3><ul class="page-card__list"><li><a href="./index.html">トップページ</a></li><li><a href="./medical.html">診療内容</a></li><li><a href="./about.html">当院について</a></li><li><a href="./access.html">診療時間・所在地</a></li><li><a href="./faq.html">よくあるご質問</a></li><li><a href="./contact.html">予約・お問い合わせ</a></li><li><a href="./first-visit.html">初めての方へ</a></li><li><a href="./news.html">お知らせ一覧</a></li></ul></div></section>
+    <section class="admin-panel" id="language-admin"><h2>多言語管理</h2><div class="page-card"><h3>対応言語</h3><ul class="page-card__list"><li>日本語（既定言語）</li><li>English</li><li>繁體字</li><li>简体字</li><li>한국어</li></ul><p>診療内容・当院について・よくあるご質問・予約フォームを含む主要ページのUIテキストが5言語に対応済みです。</p></div></section>
+    <section class="admin-panel" id="media-admin"><h2>画像管理</h2><p>支給素材、スタッフ写真、ヒーロー画像、署名画像、多言語見出し画像などの差し替えを想定しています。</p></section>
     <section class="admin-panel" id="settings-admin"><h2>公開設定</h2><p>将来は、下書き・レビュー・公開のステータス管理や、GitHub Pagesへの反映フローをここに接続する想定です。</p></section>
   </div>
 </main>

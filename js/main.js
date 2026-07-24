@@ -57,6 +57,12 @@ let routeMapZoomLevel = 1;
 const ROUTE_MAP_ZOOM_MIN = 0.85;
 const ROUTE_MAP_ZOOM_MAX = 1.8;
 const ROUTE_MAP_ZOOM_STEP = 0.15;
+const adminGateModal = document.querySelector('#admin-gate-modal');
+const adminGateModalCloseTargets = document.querySelectorAll('[data-admin-gate-close]');
+const adminGateForm = document.querySelector('[data-admin-gate-form]');
+const adminGateInput = document.querySelector('[data-admin-gate-input]');
+const adminGateError = document.querySelector('[data-admin-gate-error]');
+const ADMIN_GATE_PASSWORD = 'admin';
 
 const LANGUAGE_STORAGE_KEY = 'sato-clinic-language';
 const LANGUAGE_OPTIONS = [
@@ -310,15 +316,17 @@ function updateLocalizedImages(languageKey) {
     if (titleImage && nextSrc) {
       titleImage.setAttribute('src', nextSrc);
       const pageTitleAltMap = {
-        about: '当院について',
-        access: '診療時間・所在地',
-        news: 'お知らせ',
-        medical: '診療内容',
-        faq: 'よくあるご質問',
-        contact: '予約・お問い合わせ',
-        'first-visit': '初めての方へ',
+        about: { ja: '当院について', en: 'About Us', 'zh-tw': '關於本院', 'zh-cn': '关于本院', ko: '병원 소개' },
+        access: { ja: '診療時間・所在地', en: 'Hours / Location', 'zh-tw': '診療時間・地點', 'zh-cn': '诊疗时间・地点', ko: '진료시간·위치' },
+        news: { ja: 'お知らせ', en: 'News', 'zh-tw': '最新消息', 'zh-cn': '最新消息', ko: '공지사항' },
+        medical: { ja: '診療内容', en: 'Services', 'zh-tw': '診療內容', 'zh-cn': '诊疗内容', ko: '진료 안내' },
+        faq: { ja: 'よくあるご質問', en: 'FAQ', 'zh-tw': '常見問題', 'zh-cn': '常见问题', ko: '자주 묻는 질문' },
+        contact: { ja: '予約・お問い合わせ', en: 'Reservations / Contact', 'zh-tw': '預約・聯絡我們', 'zh-cn': '预约・联系我们', ko: '예약·문의' },
+        'first-visit': { ja: '初めての方へ', en: 'First Visit', 'zh-tw': '初診指南', 'zh-cn': '初诊指南', ko: '초진 안내' },
       };
-      titleImage.setAttribute('alt', pageTitleAltMap[localizedPageKey] || titleImage.alt || 'ページタイトル');
+      const altSet = pageTitleAltMap[localizedPageKey];
+      const nextAlt = altSet && (altSet[option.key] || altSet.ja);
+      titleImage.setAttribute('alt', nextAlt || titleImage.alt || 'ページタイトル');
     }
   }
 
@@ -342,6 +350,8 @@ function applyLanguage(languageKey) {
   applyFaqTranslations(nextLanguage);
   applyContactTranslations(nextLanguage);
   applyMedicalTranslations(nextLanguage);
+  applyFirstVisitTranslations(nextLanguage);
+  applyNewsTranslations(nextLanguage);
   updateLocalizedImages(nextLanguage);
   renderHomeNews();
   renderNewsArchive();
@@ -428,7 +438,12 @@ function applyCommonTranslations(languageKey) {
       '주차장: 병원 전용 무료 주차장 10대': translations.footerParking,
     };
     if (replacements[text]) {
-      paragraph.textContent = replacements[text];
+      const link = paragraph.querySelector('a');
+      if (link) {
+        link.textContent = replacements[text];
+      } else {
+        paragraph.textContent = replacements[text];
+      }
     }
   });
 
@@ -1132,7 +1147,7 @@ function applyAccessTranslations(languageKey) {
     ja: {
       titleAlt: '診療時間・所在地',
       eyebrow: 'Access',
-      lead: '診療時間、診療科目、交通案内、お問い合わせ先を掲載しています。',
+      lead: '佐藤医院では、患者様のご都合に合わせた診療を提供できるよう、柔軟な診療時間を設けております。以下をご確認のうえ、ご来院の際にご利用ください。',
       scheduleHeading: '診療時間',
       scheduleEyebrow: '受付終了までの目安',
       scheduleTitle: '受付時間外',
@@ -1161,7 +1176,7 @@ function applyAccessTranslations(languageKey) {
     en: {
       titleAlt: 'Hours / Location',
       eyebrow: 'Access',
-      lead: 'We provide clinic hours, departments, transportation guidance, and contact information.',
+      lead: 'At Sato Clinic, we offer flexible clinic hours to accommodate our patients’ schedules. Please review the information below before your visit.',
       scheduleHeading: 'Hours',
       scheduleEyebrow: 'Estimate until reception closes',
       scheduleTitle: 'Outside reception hours',
@@ -1186,6 +1201,93 @@ function applyAccessTranslations(languageKey) {
       routeDialogTitle: 'Enlarged route map',
       routeCloseLabel: 'Close route map',
       routeZoom: ['Zoom out', 'Reset zoom', 'Zoom in'],
+    },
+    'zh-tw': {
+      titleAlt: '診療時間・地點',
+      eyebrow: 'Access',
+      lead: '佐藤診所為配合患者的時間安排，提供彈性的診療時間。請於就診前確認以下內容。',
+      scheduleHeading: '診療時間',
+      scheduleEyebrow: '距離受理結束的預估時間',
+      scheduleTitle: '非受理時間',
+      scheduleSummary: '為您顯示當日的受理狀況。診療時間表、休診日、診療科目及所在地等詳細資訊，請參閱「診療時間・地點」頁面。',
+      scheduleHeader: ['診療時間', '一', '二', '三', '四', '五', '六', '日'],
+      morning: '上午 9:00-12:00',
+      afternoon: '下午 13:00-18:00',
+      reception: ['受理時間：上午　8:00〜11:00　／　下午　12:00〜17:00', '休診日：週四・週六下午・週日', '※國定假日亦有看診，但仍有休診日，請事先確認。'],
+      departmentHeading: '診療科目',
+      departmentList: ['內科', '循環系科', '呼吸系科', '預防醫療・健康檢查', '生活習慣病（高血壓、糖尿病等）的治療・管理'],
+      departmentNote: '如有其他疑問，歡迎透過電話或電子郵件與我們聯繫。',
+      locationHeading: '地點',
+      locationList: ['〒123-4567　東京都台東區上野0-0-0', '最近車站：JR上野站步行5分鐘', '本院專用免費停車場 10 台'],
+      locationNote: '來院時請留意交通狀況。本院位於距離最近車站步行5分鐘的便利地點。',
+      mapTitle: '佐藤診所 周邊地圖',
+      routeAlt: '從各主要車站至上野站的所需時間與路線圖',
+      routeButtonLabel: '放大顯示路線圖',
+      routeFallbackHeading: '關於路線圖',
+      routeFallbackBody: '若停用JavaScript，將無法使用路線圖放大功能，請參閱上方圖片。',
+      contactHeading: '聯絡我們',
+      contactList: ['電話號碼：00-0000-0000', 'FAX：00-0000-0000', '電子郵件：info@sato-clinic-test.jp'],
+      routeDialogTitle: '路線圖放大顯示',
+      routeCloseLabel: '關閉路線圖',
+      routeZoom: ['縮小路線圖', '恢復路線圖預設比例', '放大路線圖'],
+    },
+    'zh-cn': {
+      titleAlt: '诊疗时间・地点',
+      eyebrow: 'Access',
+      lead: '佐藤诊所为配合患者的时间安排，提供灵活的诊疗时间。请在就诊前确认以下内容。',
+      scheduleHeading: '诊疗时间',
+      scheduleEyebrow: '距离受理结束的预计时间',
+      scheduleTitle: '非受理时间',
+      scheduleSummary: '为您显示当日的受理状况。诊疗时间表、休诊日、诊疗科目及所在地等详细信息，请参阅「诊疗时间・地点」页面。',
+      scheduleHeader: ['诊疗时间', '一', '二', '三', '四', '五', '六', '日'],
+      morning: '上午 9:00-12:00',
+      afternoon: '下午 13:00-18:00',
+      reception: ['受理时间：上午　8:00〜11:00　／　下午　12:00〜17:00', '休诊日：周四・周六下午・周日', '※法定节假日也照常看诊，但仍有休诊日，请提前确认。'],
+      departmentHeading: '诊疗科目',
+      departmentList: ['内科', '循环系科', '呼吸系科', '预防医疗・健康检查', '生活习惯病（高血压、糖尿病等）的治疗・管理'],
+      departmentNote: '如有其他疑问，欢迎通过电话或电子邮件与我们联系。',
+      locationHeading: '地点',
+      locationList: ['〒123-4567　东京都台东区上野0-0-0', '最近车站：JR上野站步行5分钟', '本院专用免费停车场 10台'],
+      locationNote: '来院时请留意交通状况。本院位于距离最近车站步行5分钟的便利地点。',
+      mapTitle: '佐藤诊所 周边地图',
+      routeAlt: '从各主要车站至上野站的所需时间与路线图',
+      routeButtonLabel: '放大显示路线图',
+      routeFallbackHeading: '关于路线图',
+      routeFallbackBody: '若禁用JavaScript，将无法使用路线图放大功能，请参阅上方图片。',
+      contactHeading: '联系我们',
+      contactList: ['电话号码：00-0000-0000', 'FAX：00-0000-0000', '电子邮件：info@sato-clinic-test.jp'],
+      routeDialogTitle: '路线图放大显示',
+      routeCloseLabel: '关闭路线图',
+      routeZoom: ['缩小路线图', '恢复路线图默认比例', '放大路线图'],
+    },
+    ko: {
+      titleAlt: '진료시간·위치',
+      eyebrow: 'Access',
+      lead: '사토 클리닉은 환자분의 사정에 맞춰 진료받으실 수 있도록 유연한 진료시간을 마련하고 있습니다. 아래 내용을 확인하신 후 내원 시 이용해 주세요.',
+      scheduleHeading: '진료시간',
+      scheduleEyebrow: '접수 마감까지 예상 시간',
+      scheduleTitle: '접수 시간 외',
+      scheduleSummary: '당일 접수 현황을 안내해 드립니다. 진료시간표, 휴진일, 진료과목, 위치에 대한 자세한 내용은 "진료시간·위치" 페이지를 확인해 주세요.',
+      scheduleHeader: ['진료시간', '월', '화', '수', '목', '금', '토', '일'],
+      morning: '오전 9:00-12:00',
+      afternoon: '오후 13:00-18:00',
+      reception: ['접수시간: 오전　8:00〜11:00　／　오후　12:00〜17:00', '휴진일: 목요일·토요일 오후·일요일', '※공휴일에도 진료하지만 휴진일이 있으니 사전에 확인해 주세요.'],
+      departmentHeading: '진료과목',
+      departmentList: ['내과', '순환기과', '호흡기과', '예방의료·건강검진', '생활습관병(고혈압, 당뇨병 등)의 치료·관리'],
+      departmentNote: '그 밖에 궁금한 점이 있으시면 전화 또는 이메일로 문의해 주세요.',
+      locationHeading: '위치',
+      locationList: ['〒123-4567　도쿄도 다이토구 우에노0-0-0', '가까운 역: JR 우에노역에서 도보 5분', '병원 전용 무료 주차장 10대'],
+      locationNote: '내원하실 때는 교통 상황에 유의해 주세요. 가까운 역에서 도보 5분 거리의 편리한 위치에 있습니다.',
+      mapTitle: '사토 클리닉 주변 지도',
+      routeAlt: '주요 역에서 우에노역까지 소요 시간 및 노선도',
+      routeButtonLabel: '노선도 확대 보기',
+      routeFallbackHeading: '노선도 안내',
+      routeFallbackBody: '자바스크립트를 비활성화한 경우 노선도 확대 기능을 이용하실 수 없습니다. 위 이미지를 확인해 주세요.',
+      contactHeading: '문의',
+      contactList: ['전화번호: 00-0000-0000', 'FAX: 00-0000-0000', '이메일: info@sato-clinic-test.jp'],
+      routeDialogTitle: '노선도 확대 보기',
+      routeCloseLabel: '노선도 닫기',
+      routeZoom: ['노선도 축소', '노선도 배율 초기화', '노선도 확대'],
     },
   };
   const map = translations[languageKey] || translations.ja;
@@ -1247,7 +1349,13 @@ function applyAccessTranslations(languageKey) {
   setPlainText('#contact-detail h2', map.contactHeading);
   const contactItems = document.querySelectorAll('#contact-detail .page-card__list li');
   contactItems.forEach((item, index) => {
-    if (map.contactList[index]) item.textContent = map.contactList[index];
+    if (!map.contactList[index]) return;
+    const link = item.querySelector('a');
+    if (link) {
+      link.textContent = map.contactList[index];
+    } else {
+      item.textContent = map.contactList[index];
+    }
   });
   const routeTitle = document.querySelector('#route-map-modal-title');
   if (routeTitle) routeTitle.textContent = map.routeDialogTitle;
@@ -1676,7 +1784,13 @@ function applyContactTranslations(languageKey) {
   setPlainText('#guidance h2', map.guidanceHeading);
   const guidanceItems = document.querySelectorAll('#guidance .page-card__list li');
   guidanceItems.forEach((item, index) => {
-    if (map.guidanceList[index]) item.textContent = map.guidanceList[index];
+    if (!map.guidanceList[index]) return;
+    const link = item.querySelector('a');
+    if (link) {
+      link.textContent = map.guidanceList[index];
+    } else {
+      item.textContent = map.guidanceList[index];
+    }
   });
   setPlainText('#guidance > p', map.guidanceNote);
 }
@@ -1760,6 +1874,192 @@ function applyMedicalTranslations(languageKey) {
     if (heading) heading.textContent = `${index + 1}. ${data.heading}`;
     if (body) body.innerHTML = data.body;
   });
+}
+
+function applyFirstVisitTranslations(languageKey) {
+  if (getCurrentPageKey() !== 'first-visit') return;
+
+  const translations = {
+    ja: {
+      lead: '佐藤医院を初めてご受診いただく方へ、ご来院からお会計までの流れと、ご持参いただくものをご案内します。ご不明な点がございましたら、お電話またはお問い合わせフォームよりお気軽にご相談ください。',
+      flowHeading: '受診の流れ',
+      flowIntro: '初めてのご来院でも安心して受診いただけるよう、受付からお会計までの流れをご案内します。',
+      flowSteps: [
+        { title: 'ご来院・受付', body: '健康保険証をご提示のうえ、受付にてお名前をお伝えください。ご予約をされている方は、その旨もあわせてお伝えください。' },
+        { title: '問診票のご記入', body: '現在の症状や既往歴などを問診票にご記入いただきます。ご記入が難しい場合は、スタッフがサポートいたしますのでお申し付けください。' },
+        { title: '診察', body: '医師が症状を伺い、必要に応じて検査を行います。治療方針について、わかりやすいご説明を心がけております。' },
+        { title: 'お会計・次回のご案内', body: '診察後、受付にてお会計をいたします。お薬が必要な場合は院外処方箋をお渡しし、次回の受診が必要な場合はあわせてご案内いたします。' },
+      ],
+      checklistHeading: 'ご持参いただくもの',
+      checklistIntro: '受付をスムーズにご案内するため、以下のものをご準備のうえご来院ください。',
+      checklistItems: ['健康保険証', 'お薬手帳（お持ちの方）', '診療情報提供書（紹介状／お持ちの方）'],
+      checklistNote: 'お支払いは、現金のほかクレジットカード（一部カードを除く）・電子マネーもご利用いただけます。',
+      reservationHeading: 'ご予約について',
+      reservationBody: '一般診療は予約なしでも受け付けておりますが、予約優先制となっております。予防接種や健康診断などは完全予約制ですので、事前にお電話またはお問い合わせフォームよりご予約ください。',
+      reservationButton: 'ご予約・お問い合わせはこちら',
+      noticeHeading: 'ご来院にあたってのお願い',
+      noticeItems: [
+        '発熱や風邪症状がある方は、ご来院前にお電話でご相談ください。',
+        'ご来院の際は、マスクの着用と手指消毒にご協力をお願いいたします。',
+        '院内はバリアフリー設計で、スロープや車椅子でご移動いただけるスペースを備えています。',
+        '院内では無料Wi-Fiをご利用いただけます（パスワードは受付にてお知らせします）。',
+      ],
+      noticeNote: 'その他ご不明な点は、よくあるご質問もあわせてご確認ください。',
+      noticeButton: 'よくあるご質問を見る',
+    },
+    en: {
+      lead: 'For those visiting Sato Clinic for the first time, here is a guide to the process from your visit to payment, along with what to bring. If you have any questions, please feel free to contact us by phone or through our inquiry form.',
+      flowHeading: 'Visit flow',
+      flowIntro: 'So that even first-time visitors can feel at ease, here is a guide to the process from reception to payment.',
+      flowSteps: [
+        { title: 'Arrival & reception', body: 'Please present your health insurance card and give your name at reception. If you have a reservation, please let us know as well.' },
+        { title: 'Filling out the questionnaire', body: 'You will be asked to fill out a questionnaire about your current symptoms and medical history. If you have difficulty filling it out, our staff will be happy to help.' },
+        { title: 'Examination', body: 'The doctor will ask about your symptoms and perform any necessary tests. We strive to explain the treatment plan in an easy-to-understand way.' },
+        { title: 'Payment & next visit', body: 'After the examination, please pay at reception. If medication is needed, we will provide an outpatient prescription, and we will also let you know if a follow-up visit is required.' },
+      ],
+      checklistHeading: 'What to bring',
+      checklistIntro: 'To help make your reception smooth, please prepare the following items before your visit.',
+      checklistItems: ['Health insurance card', 'Medication notebook (if you have one)', 'Referral letter (if you have one)'],
+      checklistNote: 'In addition to cash, you may also pay by credit card (excluding some cards) or electronic payment.',
+      reservationHeading: 'About reservations',
+      reservationBody: 'General treatment is accepted without an appointment, but appointments are given priority. Vaccinations and health checkups require a reservation, so please book in advance by phone or through our inquiry form.',
+      reservationButton: 'Reservations / Contact',
+      noticeHeading: 'Requests for visitors',
+      noticeItems: [
+        'If you have a fever or cold symptoms, please contact us by phone before visiting.',
+        'Please cooperate by wearing a mask and using hand sanitizer when visiting.',
+        'Our clinic is barrier-free, with a ramp and space for wheelchair access.',
+        'Free Wi-Fi is available in the clinic (please ask at reception for the password).',
+      ],
+      noticeNote: 'For any other questions, please also check our FAQ.',
+      noticeButton: 'View FAQ',
+    },
+    'zh-tw': {
+      lead: '為初次至佐藤診所就診的您，說明從看診到結帳的流程，以及應攜帶的物品。若有任何疑問，歡迎透過電話或洽詢表單隨時與我們聯繫。',
+      flowHeading: '就診流程',
+      flowIntro: '為了讓初次來院的您也能安心看診，以下說明從報到到結帳的流程。',
+      flowSteps: [
+        { title: '來院・報到', body: '請出示健保卡，並於櫃檯告知姓名。若您已預約，請一併告知。' },
+        { title: '填寫問診表', body: '請填寫問診表，說明目前的症狀與病史。若填寫有困難，工作人員將協助您，請隨時告知。' },
+        { title: '診察', body: '醫師將詢問您的症狀，並視需要進行檢查。我們致力於以淺顯易懂的方式說明治療方針。' },
+        { title: '結帳・下次看診說明', body: '診察後請於櫃檯完成結帳。如需用藥，將為您開立院外處方箋；如需再次看診，也會一併為您說明。' },
+      ],
+      checklistHeading: '攜帶物品',
+      checklistIntro: '為使報到手續更順暢，請於來院前準備以下物品。',
+      checklistItems: ['健保卡', '藥歷手冊（如有）', '診療資訊提供書（轉診單，如有）'],
+      checklistNote: '除現金外，亦可使用信用卡（部分卡別除外）及電子支付。',
+      reservationHeading: '預約說明',
+      reservationBody: '一般診療即使沒有預約也能看診，但採預約優先制。預防接種與健康檢查則為完全預約制，請事先透過電話或洽詢表單預約。',
+      reservationButton: '預約・聯絡我們',
+      noticeHeading: '就診注意事項',
+      noticeItems: [
+        '若有發燒或感冒症狀，請於來院前先電話洽詢。',
+        '來院時請配合佩戴口罩並進行手部消毒。',
+        '院內採無障礙設計，備有斜坡及輪椅可通行的空間。',
+        '院內提供免費Wi-Fi（密碼請於櫃檯詢問）。',
+      ],
+      noticeNote: '如有其他疑問，歡迎一併參閱常見問題。',
+      noticeButton: '查看常見問題',
+    },
+    'zh-cn': {
+      lead: '为初次到佐藤诊所就诊的您，说明从看诊到结账的流程，以及应携带的物品。如有任何疑问，欢迎通过电话或咨询表单随时与我们联系。',
+      flowHeading: '就诊流程',
+      flowIntro: '为了让初次来院的您也能安心看诊，以下说明从挂号到结账的流程。',
+      flowSteps: [
+        { title: '来院・挂号', body: '请出示医保卡，并在前台告知姓名。如已预约，请一并告知。' },
+        { title: '填写问诊表', body: '请填写问诊表，说明目前的症状与病史。如填写有困难，工作人员将协助您，请随时告知。' },
+        { title: '诊察', body: '医生将询问您的症状，并视需要进行检查。我们致力于以通俗易懂的方式说明治疗方针。' },
+        { title: '结账・下次就诊说明', body: '诊察后请在前台完成结账。如需用药，将为您开具院外处方；如需再次就诊，也会一并为您说明。' },
+      ],
+      checklistHeading: '携带物品',
+      checklistIntro: '为使挂号手续更顺畅，请在来院前准备以下物品。',
+      checklistItems: ['医保卡', '用药手册（如有）', '诊疗信息提供书（转诊单，如有）'],
+      checklistNote: '除现金外，也可使用信用卡（部分卡种除外）及电子支付。',
+      reservationHeading: '预约说明',
+      reservationBody: '一般诊疗即使没有预约也可就诊，但采取预约优先制。预防接种与健康检查则为完全预约制，请提前通过电话或咨询表单预约。',
+      reservationButton: '预约・联系我们',
+      noticeHeading: '就诊注意事项',
+      noticeItems: [
+        '如有发热或感冒症状，请在来院前先电话咨询。',
+        '来院时请配合佩戴口罩并进行手部消毒。',
+        '院内采用无障碍设计，备有坡道及轮椅可通行的空间。',
+        '院内提供免费Wi-Fi（密码请在前台询问）。',
+      ],
+      noticeNote: '如有其他疑问，欢迎一并查看常见问题。',
+      noticeButton: '查看常见问题',
+    },
+    ko: {
+      lead: '사토 클리닉을 처음 방문하시는 분들을 위해 내원부터 수납까지의 흐름과 준비물을 안내해 드립니다. 궁금하신 점이 있으시면 전화 또는 문의 양식으로 편하게 문의해 주세요.',
+      flowHeading: '진료 흐름',
+      flowIntro: '처음 내원하시는 분도 안심하고 진료받으실 수 있도록 접수부터 수납까지의 흐름을 안내해 드립니다.',
+      flowSteps: [
+        { title: '내원·접수', body: '건강보험증을 제시하시고 접수처에서 성함을 말씀해 주세요. 예약하신 분은 예약 사실도 함께 말씀해 주세요.' },
+        { title: '문진표 작성', body: '현재 증상이나 과거 병력 등을 문진표에 기입해 주세요. 작성이 어려우신 경우 직원이 도와드리니 말씀해 주세요.' },
+        { title: '진료', body: '의사가 증상을 여쭙고 필요에 따라 검사를 진행합니다. 치료 방침에 대해 이해하기 쉽게 설명해 드리도록 노력하고 있습니다.' },
+        { title: '수납·다음 진료 안내', body: '진료 후 접수처에서 수납해 주세요. 약이 필요한 경우 원외 처방전을 드리며, 다음 진료가 필요한 경우 함께 안내해 드립니다.' },
+      ],
+      checklistHeading: '준비물',
+      checklistIntro: '원활한 접수를 위해 아래 물품을 준비하신 후 내원해 주세요.',
+      checklistItems: ['건강보험증', '약수첩(소지하신 분)', '진료정보제공서(소개장, 소지하신 분)'],
+      checklistNote: '결제는 현금 외에도 신용카드(일부 카드 제외)·전자화폐를 이용하실 수 있습니다.',
+      reservationHeading: '예약 안내',
+      reservationBody: '일반 진료는 예약 없이도 접수 가능하지만, 예약이 우선됩니다. 예방접종이나 건강검진 등은 완전 예약제이므로 사전에 전화 또는 문의 양식으로 예약해 주세요.',
+      reservationButton: '예약·문의',
+      noticeHeading: '내원 시 부탁말씀',
+      noticeItems: [
+        '발열이나 감기 증상이 있으신 분은 내원 전 전화로 상담해 주세요.',
+        '내원 시 마스크 착용과 손 소독에 협조해 주세요.',
+        '원내는 배리어프리 설계로 경사로와 휠체어로 이동 가능한 공간을 갖추고 있습니다.',
+        '원내에서는 무료 Wi-Fi를 이용하실 수 있습니다(비밀번호는 접수처에서 안내해 드립니다).',
+      ],
+      noticeNote: '그 밖에 궁금하신 점은 자주 묻는 질문도 함께 확인해 주세요.',
+      noticeButton: '자주 묻는 질문 보기',
+    },
+  };
+
+  const map = translations[languageKey] || translations.ja;
+  const setText = (selector, value) => {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.innerHTML = value;
+    });
+  };
+  const setPlainText = (selector, value) => {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.textContent = value;
+    });
+  };
+
+  setText('.subpage-hero__lead--first-visit', map.lead);
+
+  setPlainText('#flow h2', map.flowHeading);
+  setText('#flow > p', map.flowIntro);
+  document.querySelectorAll('#flow .visit-flow__step').forEach((step, index) => {
+    const data = map.flowSteps[index];
+    if (!data) return;
+    const heading = step.querySelector('h3');
+    const body = step.querySelector('p');
+    if (heading) heading.textContent = data.title;
+    if (body) body.textContent = data.body;
+  });
+
+  setPlainText('#checklist h2', map.checklistHeading);
+  const checklistParagraphs = document.querySelectorAll('#checklist > p');
+  if (checklistParagraphs[0]) checklistParagraphs[0].textContent = map.checklistIntro;
+  document.querySelectorAll('#checklist .page-card__list li').forEach((item, index) => {
+    if (map.checklistItems[index]) item.textContent = map.checklistItems[index];
+  });
+  if (checklistParagraphs[1]) checklistParagraphs[1].textContent = map.checklistNote;
+
+  setPlainText('#reservation h2', map.reservationHeading);
+  setText('#reservation > p', map.reservationBody);
+  setPlainText('#reservation .button', map.reservationButton);
+
+  setPlainText('#notice h2', map.noticeHeading);
+  document.querySelectorAll('#notice .page-card__list li').forEach((item, index) => {
+    if (map.noticeItems[index]) item.textContent = map.noticeItems[index];
+  });
+  setText('#notice > p', map.noticeNote);
+  setPlainText('#notice .button--secondary', map.noticeButton);
 }
 
 function getNewsTextMap(languageKey) {
@@ -1855,6 +2155,11 @@ function getNewsTextMap(languageKey) {
 
 function applyNewsTranslations(languageKey) {
   const map = getNewsTextMap(languageKey);
+  const setPlainText = (selector, value) => {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.textContent = value;
+    });
+  };
 
   const titleImage = document.querySelector('.news-page-title-image img');
   if (titleImage) titleImage.alt = map.titleAlt;
@@ -2221,6 +2526,23 @@ function setRouteMapZoom(nextZoomLevel) {
   routeMapModalImage.style.width = `${routeMapZoomLevel * 100}%`;
 }
 
+function openAdminGateModal() {
+  if (!adminGateModal) return;
+  if (adminGateError) adminGateError.hidden = true;
+  if (adminGateInput) adminGateInput.value = '';
+  adminGateModal.classList.add('is-open');
+  adminGateModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('is-modal-open');
+  if (adminGateInput) adminGateInput.focus();
+}
+
+function closeAdminGateModal() {
+  if (!adminGateModal) return;
+  adminGateModal.classList.remove('is-open');
+  adminGateModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('is-modal-open');
+}
+
 if (menuButton && siteNav) {
   menuButton.addEventListener('click', () => {
     const isOpen = siteNav.classList.toggle('is-open');
@@ -2255,6 +2577,7 @@ if (menuButton && siteNav) {
     document.documentElement.classList.remove('is-menu-open');
     closeStaffModal();
     closeRouteMapModal();
+    closeAdminGateModal();
   });
 }
 
@@ -2299,6 +2622,26 @@ staffModalCloseTargets.forEach((target) => {
 
 if (routeMapTrigger) {
   routeMapTrigger.addEventListener('click', openRouteMapModal);
+}
+
+adminGateModalCloseTargets.forEach((target) => {
+  target.addEventListener('click', closeAdminGateModal);
+});
+
+if (adminGateForm) {
+  adminGateForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const value = (adminGateInput?.value || '').trim();
+    if (value === ADMIN_GATE_PASSWORD) {
+      window.location.href = './admin.html';
+      return;
+    }
+    if (adminGateError) adminGateError.hidden = false;
+    if (adminGateInput) {
+      adminGateInput.value = '';
+      adminGateInput.focus();
+    }
+  });
 }
 
 routeMapModalCloseTargets.forEach((target) => {
@@ -2596,13 +2939,20 @@ if (getCurrentPageKey() !== 'admin') {
   applyLanguage(getStoredLanguage());
 }
 
-function formatRemainingTime(targetTime, now) {
+function formatRemainingTime(targetTime, now, languageKey) {
   const remainingMs = Math.max(0, targetTime.getTime() - now.getTime());
   const totalSeconds = Math.floor(remainingMs / 1000);
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-  return `あと ${hours}時間${minutes}分${seconds}秒`;
+  const formatters = {
+    ja: () => `あと ${hours}時間${minutes}分${seconds}秒`,
+    en: () => `${hours}h ${minutes}m ${seconds}s left`,
+    'zh-tw': () => `剩餘 ${hours}小時${minutes}分${seconds}秒`,
+    'zh-cn': () => `剩余 ${hours}小时${minutes}分${seconds}秒`,
+    ko: () => `${hours}시간 ${minutes}분 ${seconds}초 남음`,
+  };
+  return (formatters[languageKey] || formatters.ja)();
 }
 
 function getScheduleStatusText(languageKey) {
@@ -2673,7 +3023,7 @@ function updateScheduleStatus() {
     targetTime.setHours(11, 0, 0, 0);
     title = text.morning;
     meta = text.metaMorning;
-    badge = formatRemainingTime(targetTime, now);
+    badge = formatRemainingTime(targetTime, now, languageKey);
     showMeta = true;
     activePeriod = 'morning';
   } else if (isWeekday && isAfternoonReception) {
@@ -2681,7 +3031,7 @@ function updateScheduleStatus() {
     targetTime.setHours(17, 0, 0, 0);
     title = text.afternoon;
     meta = text.metaAfternoon;
-    badge = formatRemainingTime(targetTime, now);
+    badge = formatRemainingTime(targetTime, now, languageKey);
     showMeta = true;
     activePeriod = 'afternoon';
   }
@@ -2779,6 +3129,19 @@ window.addEventListener('resize', updateHeroResponsivePhotos);
 
 if (window.matchMedia('(min-width: 769px)').matches && draggableTargets.length) {
   const floatingItems = [];
+  const heroOrb = document.querySelector('.hero-orb');
+  const heroOrbCards = Array.from(document.querySelectorAll('.hero__card.is-draggable'));
+  const doctorPhoto = document.querySelector('.hero__photo--doctor');
+
+  const isCardInsideOrb = (cardEl, orbRect) => {
+    const cardRect = cardEl.getBoundingClientRect();
+    const cardCenterX = cardRect.left + cardRect.width / 2;
+    const cardCenterY = cardRect.top + cardRect.height / 2;
+    const orbCenterX = orbRect.left + orbRect.width / 2;
+    const orbCenterY = orbRect.top + orbRect.height / 2;
+    const distance = Math.hypot(cardCenterX - orbCenterX, cardCenterY - orbCenterY);
+    return distance <= orbRect.width / 2;
+  };
 
   draggableTargets.forEach((element) => {
     let pointerId = null;
@@ -2827,10 +3190,15 @@ if (window.matchMedia('(min-width: 769px)').matches && draggableTargets.length) 
     element.addEventListener('pointerup', stopDrag);
     element.addEventListener('pointercancel', stopDrag);
     element.addEventListener('click', (event) => {
-      if (!dragged) return;
-      event.preventDefault();
-      event.stopPropagation();
-      dragged = false;
+      if (dragged) {
+        event.preventDefault();
+        event.stopPropagation();
+        dragged = false;
+        return;
+      }
+      if (element === doctorPhoto && element.classList.contains('is-admin-unlocked')) {
+        openAdminGateModal();
+      }
     }, true);
   });
 
@@ -2842,6 +3210,12 @@ if (window.matchMedia('(min-width: 769px)').matches && draggableTargets.length) 
       element.style.setProperty('--float-x', `${x.toFixed(2)}px`);
       element.style.setProperty('--float-y', `${y.toFixed(2)}px`);
     });
+
+    if (heroOrb && doctorPhoto && heroOrbCards.length) {
+      const orbRect = heroOrb.getBoundingClientRect();
+      const allCardsInsideOrb = heroOrbCards.every((card) => isCardInsideOrb(card, orbRect));
+      doctorPhoto.classList.toggle('is-admin-unlocked', allCardsInsideOrb);
+    }
 
     window.requestAnimationFrame(animateFloating);
   };

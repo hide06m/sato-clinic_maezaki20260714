@@ -751,6 +751,11 @@ h1, h2, h3, p, ul { margin: 0; }
   aspect-ratio: 1 / 1;
 }
 
+.hero__photo--doctor.is-admin-unlocked {
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(46, 139, 114, 0.35), var(--shadow-card);
+}
+
 .hero__photo--exterior {
   right: 22px;
   bottom: 104px;
@@ -3660,6 +3665,41 @@ h1, h2, h3, p, ul { margin: 0; }
   color: var(--color-green);
 }
 
+.admin-gate-modal__dialog {
+  width: min(calc(100% - 32px), 420px);
+  margin-top: 18vh;
+  text-align: center;
+}
+
+.admin-gate-modal__form {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  text-align: left;
+}
+
+.admin-gate-modal__field input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background: #fbfefc;
+  font: inherit;
+  text-align: center;
+  letter-spacing: .12em;
+}
+
+.admin-gate-modal__error {
+  margin: 0;
+  color: #c0392b;
+  font-size: calc(var(--font-scale, 1) * 13px);
+}
+
+.admin-gate-modal__submit {
+  width: 100%;
+  justify-self: stretch;
+}
+
 .route-map-modal__dialog {
   width: min(calc(100% - 32px), 980px);
   padding: 22px;
@@ -4034,6 +4074,23 @@ h1, h2, h3, p, ul { margin: 0; }
   color: var(--color-white);
 }
 
+.admin-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--color-white);
+  font-size: calc(var(--font-scale, 1) * 12px);
+}
+
+.admin-sidebar__brand img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
 .admin-sidebar h1 {
   font-size: calc(var(--font-scale, 1) * 24px);
   line-height: 1.4;
@@ -4055,6 +4112,17 @@ h1, h2, h3, p, ul { margin: 0; }
   padding: 32px;
 }
 
+#pages-admin .page-card__list a {
+  color: var(--color-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+#pages-admin .page-card__list a:hover,
+#pages-admin .page-card__list a:focus-visible {
+  color: var(--color-text-main);
+}
+
 .admin-panel + .admin-panel {
   margin-top: 24px;
 }
@@ -4064,6 +4132,35 @@ h1, h2, h3, p, ul { margin: 0; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
   margin-top: 16px;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.admin-stat {
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+.admin-stat strong {
+  display: block;
+  font-size: calc(var(--font-scale, 1) * 28px);
+  color: var(--color-green);
+  line-height: 1.2;
+}
+
+.admin-stat span {
+  display: block;
+  margin-top: 4px;
+  color: var(--color-text-sub);
+  font-size: calc(var(--font-scale, 1) * 12px);
 }
 
 .reveal {

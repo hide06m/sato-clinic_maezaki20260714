@@ -338,6 +338,23 @@
     </section>
   </main>
 
+  <div class="info-modal admin-gate-modal" id="admin-gate-modal" aria-hidden="true">
+    <div class="info-modal__backdrop" data-admin-gate-close></div>
+    <div class="info-modal__dialog admin-gate-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="admin-gate-modal-title">
+      <button class="info-modal__close" type="button" aria-label="閉じる" data-admin-gate-close>×</button>
+      <h2 id="admin-gate-modal-title">管理画面へのアクセス</h2>
+      <p>パスワードを入力してください。</p>
+      <form class="admin-gate-modal__form" data-admin-gate-form novalidate>
+        <label class="admin-gate-modal__field">
+          <span class="sr-only">パスワード</span>
+          <input type="password" name="admin-password" data-admin-gate-input autocomplete="off" placeholder="パスワード" required>
+        </label>
+        <p class="admin-gate-modal__error" data-admin-gate-error hidden>パスワードが違います。もう一度お試しください。</p>
+        <button class="button admin-gate-modal__submit" type="submit">送信する</button>
+      </form>
+    </div>
+  </div>
+
   <noscript>
     <div class="container" style="margin-top: 24px;">
       <div class="no-js-fallback">
