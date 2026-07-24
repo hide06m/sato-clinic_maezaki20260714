@@ -37,7 +37,7 @@ body {
   font-family: "Noto Sans JP", sans-serif;
   overflow-x: clip;
 }
-body.is-menu-open { overflow: hidden; }
+html.is-menu-open { overflow: hidden; }
 body.is-modal-open { overflow: hidden; }
 img { display: block; width: 100%; height: 100%; object-fit: cover; }
 a { color: inherit; text-decoration: none; }
@@ -1215,6 +1215,7 @@ h1, h2, h3, p, ul { margin: 0; }
   min-height: 124px;
   gap: 0;
   padding: 0;
+  pointer-events: none;
 }
 
 .staff-index-button__portrait {
@@ -1224,6 +1225,7 @@ h1, h2, h3, p, ul { margin: 0; }
   flex: 0 0 auto;
   height: 132px;
   line-height: 0;
+  pointer-events: none;
 }
 
 .staff-index-button__portrait img {
@@ -1232,6 +1234,7 @@ h1, h2, h3, p, ul { margin: 0; }
   height: 132px;
   max-height: none;
   filter: none;
+  pointer-events: none;
 }
 
 .staff-index-button__portrait--director {
@@ -1904,7 +1907,7 @@ h1, h2, h3, p, ul { margin: 0; }
   gap: 22px 22px;
   align-items: end;
   min-height: 500px;
-  padding: 130px 34px 34px;
+  padding: 175px 34px 34px;
   overflow: hidden;
   border-radius: 16px;
   border: 1px solid var(--color-border);
@@ -2621,6 +2624,34 @@ h1, h2, h3, p, ul { margin: 0; }
   line-height: 2;
 }
 
+.no-js-fallback {
+  margin-top: 20px;
+  padding: 18px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fbfefc;
+  color: var(--color-text-sub);
+  font-size: calc(var(--font-scale, 1) * 14px);
+  line-height: 1.9;
+}
+
+.no-js-fallback h3 {
+  margin-bottom: 10px;
+  color: var(--color-text-main);
+  font-size: calc(var(--font-scale, 1) * 16px);
+  line-height: 1.5;
+}
+
+.no-js-fallback p,
+.no-js-fallback li {
+  margin: 0;
+}
+
+.no-js-fallback ul {
+  margin: 12px 0 0;
+  padding-left: 1.2em;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .faq-item__question:hover {
     background: var(--color-green-light);
@@ -3284,7 +3315,7 @@ h1, h2, h3, p, ul { margin: 0; }
 
 .vision-orbit__layout {
   position: relative;
-  min-height: 1360px;
+  min-height: 1540px;
   max-width: 980px;
   margin: 0 auto;
   padding-top: 100px;
@@ -3345,22 +3376,22 @@ h1, h2, h3, p, ul { margin: 0; }
 }
 
 .vision-orbit__item--mid-left {
-  top: 632px;
+  top: 760px;
   left: 96px;
 }
 
 .vision-orbit__item--mid-right {
-  top: 632px;
+  top: 760px;
   right: 96px;
 }
 
 .vision-orbit__item--bottom-left {
-  top: 1000px;
+  top: 1180px;
   left: 190px;
 }
 
 .vision-orbit__item--bottom-right {
-  top: 1000px;
+  top: 1180px;
   right: 190px;
 }
 

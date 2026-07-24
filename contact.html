@@ -27,7 +27,7 @@
     </nav>
   </div>
 </header>
-<main><section class="subpage-hero"><div class="container subpage-hero__title-stack"><h1 class="subpage-title-image"><img src="./assets/images/contact_logo.png?v=20260717" alt="予約・お問い合わせ"></h1><p class="subpage-hero__eyebrow subpage-hero__eyebrow--page-logo">Contact</p><p>ご予約やお問い合わせは、以下のフォーム項目をご確認のうえご連絡ください。</p></div></section>
+<main><section class="subpage-hero"><div class="container subpage-hero__title-stack"><h1 class="subpage-title-image"><img src="./assets/images/contact_logo.png?v=20260717" alt="予約・お問い合わせ"></h1><p class="subpage-hero__eyebrow subpage-hero__eyebrow--page-logo">Contact</p><p class="subpage-hero__lead subpage-hero__lead--contact">ご予約やお問い合わせは、以下のフォーム項目をご確認のうえご連絡ください。</p></div></section>
 <section class="page-section"><div class="container"><div class="contact-single">
 <div class="contact-notice"><p>診療に関するご質問につきましては、まずよくあるご質問をご確認ください。</p><a class="contact-notice__link" href="./faq.html">▶ よくあるご質問はこちらから</a></div>
 <p class="contact-instruction">必要情報を入力後「送信する」ボタンをクリックしてください。</p>
@@ -35,6 +35,12 @@
 <button class="contact-type-toggle__button is-active" type="button" data-contact-type="予約"><span class="contact-type-toggle__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18"/><path d="M8 2.5v4M16 2.5v4"/><path d="M9 14.5l2.1 2.1 4-4.4"/></svg></span>診療を予約する</button>
 <button class="contact-type-toggle__button" type="button" data-contact-type="お問い合わせ"><span class="contact-type-toggle__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></span>お問い合わせをする</button>
 </div>
+<noscript>
+<div class="no-js-fallback">
+  <h3>お問い合わせ種別について</h3>
+  <p>JavaScriptを無効にしている場合も、下の選択欄で「予約」または「お問い合わせ」を選べます。必要に応じて内容をご入力ください。</p>
+</div>
+</noscript>
 <form class="inquiry-form" id="inquiry" novalidate>
 <label class="inquiry-form__field" data-field="type"><span>お問い合わせ種別<em class="form-required">必須</em></span><select id="contact-type-select" name="contact-type" required><option value="">―以下から選択してください―</option><option value="予約" selected>予約</option><option value="お問い合わせ">お問い合わせ</option></select><span class="form-error" role="alert"></span></label>
 <label class="inquiry-form__field" data-field="name"><span>氏名<em class="form-required">必須</em></span><input type="text" name="name" placeholder="佐藤 太郎" autocomplete="name" required><span class="form-error" role="alert"></span></label>
